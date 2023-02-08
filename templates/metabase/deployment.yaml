@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: {{ .Values.Ambiente.Name10 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+     name:  {{ .Values.Ambiente.Name10 }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        app: {{ .Values.Ambiente.Name10 }}
+        checksum/config: {{  toJson .Values.env | sha256sum }} 
+      creationTimestamp: null
+      labels:
+       ingless-polite-networke-access: "true"
+       name:  {{ .Values.Ambiente.Name10 }}
+    spec:
+      containers:
+      -   name: {{ .Values.Ambiente.Name10 }}
+          args:
+          envFrom:
+           - configMapRef:
+              name:   {{ .Release.Name }}-configmap
+          image:  {{ .Values.Ambiente.Imagem10  }}
+          resources: {}
+          ports:
+            - containerPort:  {{ .Values.Ambiente.PortContainer10 }}
+          volumeMounts:
+            - mountPath:  {{ .Values.Ambiente.VolumesContainer10}}
+              name:  {{ .Values.Ambiente.Name10 }}-pathlocal
+            - mountPath:  {{ .Values.Ambiente.VolumesContainer11}}
+              name:  {{ .Values.Ambiente.Name10 }}-pathlocal11
+      restartPolicy: Always
+      volumes:
+        - name: {{ .Values.Ambiente.Name10 }}-pathlocal
+          hostPath:
+            path: {{ .Values.Ambiente.VolumesPathLocal10}}
+            type: DirectoryOrCreate
+        - name: {{ .Values.Ambiente.Name10 }}-pathlocal11
+          hostPath:
+            path: {{ .Values.Ambiente.VolumesPathLocal11}}
+            type: DirectoryOrCreate

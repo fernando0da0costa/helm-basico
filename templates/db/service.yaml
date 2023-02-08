@@ -1,0 +1,30 @@
+
+####### acesso interno
+apiVersion: v1
+kind: Service
+metadata:
+  name:  {{ .Values.Ambiente.ServerNameInteno20}}
+spec:
+  clusterIP: None
+  selector:
+   name: {{ .Values.Ambiente.Name20 }} ######## conecta ao deployment
+  ports:
+    - name: http-{{ .Values.Ambiente.PortContainer20 }}
+      port:  {{ .Values.Ambiente.PortContainer20 }}
+      targetPort:  {{ .Values.Ambiente.PortContainer20 }}
+---
+###### acesso via ip
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.Ambiente.ServerNameInteno20}}-ip
+spec:
+  selector:
+     name: {{ .Values.Ambiente.Name20 }}
+  ports:
+     - name: http
+       protocol: TCP
+       port:   {{ .Values.Ambiente.PortContainer20 }}
+       nodePort: {{ .Values.Ambiente.PortServerLocal20}}
+  type: NodePort
+status:

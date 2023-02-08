@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name:  {{ .Release.Name }}-configmap
+data:
+  {{- range $key, $value := .Values.env }}
+   {{- $tp := typeOf $value }}
+   #{{- printf " %q " $tp}}  
+   {{- if       eq $tp  "string"}}
+       {{ $key }}: {{ $value |  quote  }}
+   {{- else if  eq $tp  "float64"}}
+       {{ $key }}: {{ $value |  quote  }}
+   {{- else if  eq $tp  "map[string]interface {}"}}
+       {{ $key }}: {{ $value | toJson | quote  }}
+   {{- else if  eq $tp  "int"}}
+       {{ $key }}: {{ $value |  quote  }}
+   {{- else if  eq $tp  "bool"}}
+       {{ $key }}: {{ $value |  quote  }}
+   {{- else }}
+       {{ $key }}: {{- printf " %q " ""}}  
+   {{- end }}
+  {{- end }}
+  # https://stackoverflow.com/questions/55958507/helm-templating-variables-in-values-yaml  
+  # https://github.com/helm/charts/blob/master/stable/telegraf/templates/_helpers.tpl
+  # {{- range $key, $value := .Values.config }}
+  # {{ $key }} = {{ tpl ($value | toString) $ }}
+  # {{- end }}

@@ -1,0 +1,35 @@
+################################AMBIENTE##########################################
+Ambiente:
+  NameSpace: metabase
+ ######################## 1
+  Name10: metabase
+  Imagem10: metabase/metabase
+  ServerNameInteno10: metabase
+  PortContainer10: 3000
+  PortServerLocal10: 30201
+  VolumesContainer10: /metabase-data
+  VolumesPathLocal10: /DADOS/metabase/config
+  VolumesContainer11: /app/plugins/
+  VolumesPathLocal11: /DADOS/metabase/plugins
+ ############################## 
+  Name20: mariadb
+  ServerNameInteno20: db
+  Imagem20: mariadb:10.2.12
+  PortContainer20: 3306
+  PortServerLocal20: 30202
+  VolumesContainer20: /var/lib/mysql
+  VolumesPathLocal20: /DADOS/metabase/data
+##########################################ENV################################
+env:   
+      MB_DB_TYPE: mysql
+      MB_DB_DBNAME: metabase
+      MB_DB_PORT: 3306
+      MB_DB_USER: root
+      MB_DB_PASS: "xxxxxxxx"
+      MB_DB_HOST: db
+      JAVA_OPT: " -Xms2G -Xmx2G"
+   ########## banco 
+      MYSQL_ROOT_PASSWORD: "xxxxxxxxxxxx"
+      MYSQL_DATABASE: metabase
+      MYSQL_USER: metabase
+      MYSQL_PASSWORD: "xxxxxxxxxxxxx"
